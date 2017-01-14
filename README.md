@@ -39,3 +39,16 @@ yielding [timeline.har](example/timeline.har) which can be visualized with for
 example the [HAR Viewer](http://www.softwareishard.com/blog/har-viewer/):
 
 ![HAR Viewer screenshot](example/harviewer_screenshot.png)
+
+This shows:
+
+The grey bars show the time the future was actually running. This should
+typically be short unless for CPU-intensive tasks.
+
+The green bars show the time between the moment the future was created and the
+moment it was actually started. This shows the time futures are waiting for their
+input.
+
+The purple bars show the time between the moment the future was triggered
+and the time it was actually ran. If this is not instant, it is a sign the
+`ExecutionContext` has been exhausted.
