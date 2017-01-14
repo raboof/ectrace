@@ -1,12 +1,11 @@
-
-package ectrace
+import $ivy.`net.bzzt::ectrace:0.1-SNAPSHOT`
 
 import java.io.{BufferedWriter, File, FileWriter}
 
 import scala.concurrent._
 import scala.concurrent.duration._
 
-import org.scalatest._
+import ectrace._
 
 object TestMain extends App {
   implicit val ec: WrappedExecutionContext = WrappedExecutionContext(ExecutionContext.global)
@@ -21,13 +20,7 @@ object TestMain extends App {
   f.map(_.map(println))
   Await.result(Future.sequence(f), 20.seconds)
 
-  val file = new File("timeline.data")
-  val bw = new BufferedWriter(new FileWriter(file))
-
-  ec.children.foreach { ec ⇒
-    val text: String = ec.created + " " + ec.scheduled + " " + ec.started + " " + ec.done + " " + ec.context.mkString("/")
-    println(text)
-    bw.write(text + "\n")
-  }
-  bw.close()
+  ec.dumpToFile("timeline.data")
 }
+
+TestMain.main(Array.empty)
