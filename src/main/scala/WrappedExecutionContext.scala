@@ -55,7 +55,8 @@ case class WrappedExecutionContext(ec: ExecutionContext, context: List[String] =
       "Empty stack"
     else if (stack.head.getClassName.startsWith("scala."))
       describeStack(stack.tail)
-    else
-      stack.head.getFileName + ":" + stack.head.getLineNumber
+    else {
+      stack.head.toString
+    }
   }
 }

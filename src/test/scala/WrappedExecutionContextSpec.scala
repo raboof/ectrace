@@ -14,7 +14,7 @@ class WrappedExecutionContextSpec extends WordSpec with Matchers {
 
       ec.children.length should be(1)
       ec.children.head.context.length should be(1)
-      ec.children.head.context.head should startWith("WrappedExecutionContextSpec.scala")
+      ec.children.head.context.head should include("WrappedExecutionContextSpec.scala")
     }
 
     "Correctly report on mapping over a future" in {
@@ -25,13 +25,13 @@ class WrappedExecutionContextSpec extends WordSpec with Matchers {
 
       ec.children.length should be(2)
       ec.children.head.context.length should be(1)
-      val LineNo = ".*:(\\d+)".r
+      val LineNo = ".*:(\\d+).*".r
       val lineno = ec.children.head.context.head match {
         case LineNo(no) ⇒ no.toInt
       }
 
       ec.children.tail.head.context.length should be(1)
-      ec.children.tail.head.context.head should be("WrappedExecutionContextSpec.scala:" + (lineno - 1))
+      ec.children.tail.head.context.head should include("WrappedExecutionContextSpec.scala:" + (lineno - 1))
     }
   }
 }
